@@ -6,6 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "vue": "^3.0.4"
   },
   "devDependencies": {

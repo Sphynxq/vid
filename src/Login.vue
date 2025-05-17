@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import bcrypt from 'bcryptjs';
+
 export default {
   emits: ['login-success'],
   data() {
@@ -47,18 +49,20 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
       const user = localStorage.getItem('vid_user');
-      const pass = localStorage.getItem('vid_pass');
-      if (this.username === user && this.password === pass) {
+      const hash = localStorage.getItem('vid_pass');
+      if (this.username === user && hash && await bcrypt.compare(this.password, hash)) {
         this.$emit('login-success');
       } else {
         this.error = 'Usuario o contraseña incorrectos';
       }
     },
-    register() {
+    async register() {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(this.password, salt);
       localStorage.setItem('vid_user', this.username);
-      localStorage.setItem('vid_pass', this.password);
+      localStorage.setItem('vid_pass', hash);
       this.mode = 'login';
       this.error = '¡Registro exitoso! Ahora inicia sesión.';
       this.username = '';
