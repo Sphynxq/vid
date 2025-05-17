@@ -4,11 +4,19 @@
     <h2 v-else>Registrarse</h2>
     <form @submit.prevent="mode === 'login' ? login() : register()">
       <input
-        v-model="username"
+        v-if="mode === 'register'"
+        v-model="nombre"
         type="text"
-        placeholder="Usuario"
+        placeholder="Nombre"
         required
-        autocomplete="username"
+        autocomplete="name"
+      />
+      <input
+        v-model="email"
+        type="email"
+        placeholder="Correo electrónico"
+        required
+        autocomplete="email"
       />
       <input
         v-model="password"
@@ -16,6 +24,14 @@
         placeholder="Contraseña"
         required
         autocomplete="current-password"
+      />
+      <input
+        v-if="mode === 'register'"
+        v-model="telefono"
+        type="tel"
+        placeholder="Teléfono"
+        required
+        autocomplete="tel"
       />
       <button type="submit">
         {{ mode === 'login' ? 'Iniciar Sesión' : 'Registrarse' }}
@@ -36,37 +52,69 @@
 </template>
 
 <script>
-import bcrypt from 'bcryptjs';
-
 export default {
   emits: ['login-success'],
   data() {
     return {
       mode: 'login', // o 'register'
-      username: '',
+      nombre: '',
+      email: '',
       password: '',
+      telefono: '',
       error: ''
     }
   },
   methods: {
     async login() {
-      const user = localStorage.getItem('vid_user');
-      const hash = localStorage.getItem('vid_pass');
-      if (this.username === user && hash && await bcrypt.compare(this.password, hash)) {
-        this.$emit('login-success');
-      } else {
-        this.error = 'Usuario o contraseña incorrectos';
+      try {
+        const response = await fetch('https://backvid.onrender.com/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password
+          })
+        });
+        const data = await response.json();
+        if (data.success) {
+          this.$emit('login-success');
+        } else {
+          this.error = data.message || 'Usuario o contraseña incorrectos';
+        }
+      } catch (err) {
+        this.error = 'Error de conexión con el servidor';
       }
     },
     async register() {
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(this.password, salt);
-      localStorage.setItem('vid_user', this.username);
-      localStorage.setItem('vid_pass', hash);
-      this.mode = 'login';
-      this.error = '¡Registro exitoso! Ahora inicia sesión.';
-      this.username = '';
-      this.password = '';
+      try {
+        const response = await fetch('https://backvid.onrender.com/registro', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nombre: this.nombre,
+            email: this.email,
+            password: this.password,
+            telefono: this.telefono
+          })
+        });
+        const data = await response.json();
+        if (data.success) {
+          this.mode = 'login';
+          this.error = '¡Registro exitoso! Ahora inicia sesión.';
+          this.nombre = '';
+          this.email = '';
+          this.password = '';
+          this.telefono = '';
+        } else {
+          this.error = data.message || 'No se pudo registrar';
+        }
+      } catch (err) {
+        this.error = 'Error de conexión con el servidor';
+      }
     }
   }
 }
