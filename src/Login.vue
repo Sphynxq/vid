@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   emits: ['login-success'],
   data() {
@@ -67,17 +69,11 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await fetch('https://backvid.onrender.com/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            email: this.email,
-            password: this.password
-          })
+        const response = await axios.post('https://backvid.onrender.com/login', {
+          email: this.email,
+          password: this.password
         });
-        const data = await response.json();
+        const data = response.data;
         if (data.success) {
           this.$emit('login-success');
         } else {
@@ -89,19 +85,13 @@ export default {
     },
     async register() {
       try {
-        const response = await fetch('https://backvid.onrender.com/registro', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            nombre: this.nombre,
-            email: this.email,
-            password: this.password,
-            telefono: this.telefono
-          })
+        const response = await axios.post('https://backvid.onrender.com/registro', {
+          nombre: this.nombre,
+          email: this.email,
+          password: this.password,
+          telefono: this.telefono
         });
-        const data = await response.json();
+        const data = response.data;
         if (data.success) {
           this.mode = 'login';
           this.error = '¡Registro exitoso! Ahora inicia sesión.';
