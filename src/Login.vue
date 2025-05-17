@@ -77,17 +77,26 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post('https://backvid.onrender.com/login', {
+        // Crear un objeto de datos directamente sin referenciar elementos del DOM
+        const loginData = {
           email: this.email,
           password: this.password
-        });
+        };
+        
+        console.log('Intentando iniciar sesión con:', { email: this.email });
+        
+        const response = await axios.post('https://backvid.onrender.com/login', loginData);
         const data = response.data;
+        
+        console.log('Respuesta del servidor:', data);
+        
         if ((data && data.success) || (data && data.mensaje)) {
           this.$emit('login-success');
         } else {
           this.error = (data && data.message) || (data && data.mensaje) || 'Usuario o contraseña incorrectos';
         }
       } catch (err) {
+        console.error('Error durante el inicio de sesión:', err);
         this.error = err.response?.data?.message || 'Error de conexión con el servidor';
       }
     },
@@ -114,37 +123,38 @@ export default {
         return;
       }
       try {
-        console.log('Enviando datos al backend:', {
+        // Crear objeto de datos directamente
+        const registroData = {
           nombre: this.nombre,
           email: this.email,
           password: this.password,
           telefono: this.telefono
-        });
-        const response = await axios.post('https://backvid.onrender.com/registro', {
-          nombre: this.nombre,
-          email: this.email,
-          password: this.password,
-          telefono: this.telefono
-        });
+        };
+
+        console.log('Enviando datos al backend:', registroData);
+        
+        const response = await axios.post('https://backvid.onrender.com/registro', registroData);
         const data = response.data;
         console.log('Respuesta del backend (registro):', data);
         if ((data && data.success) || (data && data.mensaje)) {
           // Intentar login automáticamente después del registro
           try {
             console.log('Intentando login automático...');
-            const loginResponse = await axios.post('https://backvid.onrender.com/login', {
+            const loginData = {
               email: this.email,
               password: this.password
-            });
-            const loginData = loginResponse.data;
-            console.log('Respuesta del backend (login):', loginData);
-            if ((loginData && loginData.success) || (loginData && loginData.mensaje)) {
+            };
+            const loginResponse = await axios.post('https://backvid.onrender.com/login', loginData);
+            const loginResponseData = loginResponse.data;
+            console.log('Respuesta del backend (login):', loginResponseData);
+            if ((loginResponseData && loginResponseData.success) || (loginResponseData && loginResponseData.mensaje)) {
               this.$emit('login-success');
             } else {
-              this.error = (loginData && loginData.message) || (loginData && loginData.mensaje) || 'No se pudo iniciar sesión después del registro';
+              this.error = (loginResponseData && loginResponseData.message) || (loginResponseData && loginResponseData.mensaje) || 'No se pudo iniciar sesión después del registro';
               console.log('Error en login automático:', this.error);
             }
           } catch (loginErr) {
+            console.error('Error durante el login automático:', loginErr);
             this.error = loginErr.response?.data?.message || 'Error al iniciar sesión después del registro';
             console.log('Excepción en login automático:', loginErr);
           }
@@ -158,6 +168,7 @@ export default {
           console.log('Error en registro:', this.error, data);
         }
       } catch (err) {
+        console.error('Error durante el registro:', err);
         this.error = err.response?.data?.message || 'Error de conexión con el servidor';
         console.log('Excepción en registro:', err, err.response);
       }
