@@ -93,12 +93,23 @@ export default {
     border-radius: 10px;
   }
   .camera-box {
-    min-height: 180px;
+    min-height: unset;
+    height: 40vw;
+    max-height: 220px;
+    aspect-ratio: 16 / 9;
+    width: 100%;
     border-width: 3px;
     border-radius: 8px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000; /* Simula fondo de video */
   }
   .camera-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 0 1px 4px #000;
   }
 }
 </style>
