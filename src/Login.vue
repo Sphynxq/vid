@@ -82,17 +82,44 @@ export default {
           password: this.password
         });
         const data = response.data;
-        if (data && data.success) {
+        if ((data && data.success) || (data && data.mensaje)) {
           this.$emit('login-success');
         } else {
-          this.error = (data && data.message) || 'Usuario o contraseña incorrectos';
+          this.error = (data && data.message) || (data && data.mensaje) || 'Usuario o contraseña incorrectos';
         }
       } catch (err) {
         this.error = err.response?.data?.message || 'Error de conexión con el servidor';
       }
     },
     async register() {
+      // Validaciones básicas antes de enviar al backend
+      if (!this.nombre || !this.email || !this.password || !this.telefono) {
+        this.error = 'Todos los campos son obligatorios';
+        console.log('Validación fallida: campos vacíos', {
+          nombre: this.nombre,
+          email: this.email,
+          password: this.password,
+          telefono: this.telefono
+        });
+        return;
+      }
+      if (this.password.length < 6) {
+        this.error = 'La contraseña debe tener al menos 6 caracteres';
+        console.log('Validación fallida: contraseña corta', this.password);
+        return;
+      }
+      if (!/^\d{7,15}$/.test(this.telefono)) {
+        this.error = 'El teléfono debe tener entre 7 y 15 dígitos';
+        console.log('Validación fallida: teléfono incorrecto', this.telefono);
+        return;
+      }
       try {
+        console.log('Enviando datos al backend:', {
+          nombre: this.nombre,
+          email: this.email,
+          password: this.password,
+          telefono: this.telefono
+        });
         const response = await axios.post('https://backvid.onrender.com/registro', {
           nombre: this.nombre,
           email: this.email,
@@ -100,18 +127,39 @@ export default {
           telefono: this.telefono
         });
         const data = response.data;
-        if (data && data.success) {
-          this.mode = 'login';
-          this.error = '¡Registro exitoso! Ahora inicia sesión.';
+        console.log('Respuesta del backend (registro):', data);
+        if ((data && data.success) || (data && data.mensaje)) {
+          // Intentar login automáticamente después del registro
+          try {
+            console.log('Intentando login automático...');
+            const loginResponse = await axios.post('https://backvid.onrender.com/login', {
+              email: this.email,
+              password: this.password
+            });
+            const loginData = loginResponse.data;
+            console.log('Respuesta del backend (login):', loginData);
+            if ((loginData && loginData.success) || (loginData && loginData.mensaje)) {
+              this.$emit('login-success');
+            } else {
+              this.error = (loginData && loginData.message) || (loginData && loginData.mensaje) || 'No se pudo iniciar sesión después del registro';
+              console.log('Error en login automático:', this.error);
+            }
+          } catch (loginErr) {
+            this.error = loginErr.response?.data?.message || 'Error al iniciar sesión después del registro';
+            console.log('Excepción en login automático:', loginErr);
+          }
+          // Limpiar campos
           this.nombre = '';
           this.email = '';
           this.password = '';
           this.telefono = '';
         } else {
-          this.error = (data && data.message) || 'No se pudo registrar';
+          this.error = (data && data.message) || (data && data.mensaje) || 'No se pudo registrar';
+          console.log('Error en registro:', this.error, data);
         }
       } catch (err) {
         this.error = err.response?.data?.message || 'Error de conexión con el servidor';
+        console.log('Excepción en registro:', err, err.response);
       }
     }
   }
@@ -126,7 +174,7 @@ export default {
   padding: 40px 32px;
   max-width: 350px;
   margin: 80px auto;
-  display: flex;
+  display: flex;  
   flex-direction: column;
   align-items: center;
 }
