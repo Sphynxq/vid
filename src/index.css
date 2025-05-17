@@ -1,8 +1,134 @@
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
+  background-color: #A47551;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 40px;
+  gap: 40px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  gap: 40px;
+  justify-content: flex-start;
+  height: 100vh;
+  position: relative;
+}
+
+.logo-box {
+  background: #C9A074;
+  border-radius: 24px;
+  box-shadow: 4px 4px 12px #B6895B;
+  padding: 8px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+.logo-img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 16px;
+}
+
+.menu-box {
+  background: #B6895B;
+  border-radius: 12px;
+  padding: 24px 24px 32px 24px;
+  width: 100%;
+  box-shadow: 2px 2px 8px #8B5E3C;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.menu-title {
+  background: #8B5E3C;
+  border-radius: 8px;
+  font-size: 2.5rem;
+  font-family: inherit;
+  font-weight: 400;
+  color: #FFF;
+  width: 100%;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-bottom: 24px;
+  padding: 8px 0;
+  letter-spacing: 2px;
+}
+
+.menu-btn {
+  background: #C9A074;
+  color: #3E2723;
+  font-size: 1.2rem;
+  font-family: inherit;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  margin: 16px 0;
+  width: 80%;
+  padding: 10px 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menu-btn:hover {
+  background: #B6895B;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.header-box {
+  background: #C9A074;
+  border-radius: 20px;
+  box-shadow: 2px 2px 12px #B6895B;
+  font-size: 2.8rem;
+  font-family: inherit;
+  color: #3E2723;
+  text-align: center;
+  padding: 32px 0;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+}
+
+.camera-box {
+  background: #FFF;
+  border-radius: 10px;
+  border: 6px solid #C9A074;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.camera-text {
+  font-size: 2.5rem;
+  font-family: inherit;
+  font-weight: bold;
+  color: #3E2723;
+  letter-spacing: 2px;
 }
