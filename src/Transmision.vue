@@ -55,23 +55,45 @@ export default {
       // Aquí configuras la URL de tu servidor Flask expuesto por ngrok
       // Debes cambiar esto por tu URL actual de ngrok cada vez que la inicies
       // o configurarla a través de variables de entorno
-      this.baseUrl = import.meta.env.VITE_STREAM_SERVER_URL || 'https://tu-url-de-ngrok.ngrok.io';
+      try {
+        this.baseUrl = import.meta.env.VITE_STREAM_SERVER_URL || 'https://b32b-2806-370-3025-c1af-e5d4-49bb-5566-283e.ngrok-free.app';
+        console.log('URL del servidor configurada:', this.baseUrl);
+      } catch (error) {
+        console.error('Error al configurar URL del servidor:', error);
+        this.baseUrl = ' https://b32b-2806-370-3025-c1af-e5d4-49bb-5566-283e.ngrok-free.app';
+      }
     },
     connectToStream() {
-      this.connectionError = '';
-      this.streamUrl = `${this.baseUrl}${this.streamEndpoint}`;
-      console.log('Conectando al stream en:', this.streamUrl);
+      try {
+        this.connectionError = '';
+        if (!this.baseUrl) {
+          throw new Error('La URL base no está configurada');
+        }
+        this.streamUrl = `${this.baseUrl}${this.streamEndpoint}`;
+        console.log('Conectando al stream en:', this.streamUrl);
+      } catch (error) {
+        console.error('Error al conectar al stream:', error);
+        this.handleConnectionError(error);
+      }
     },
     handleStreamError(e) {
       console.error('Error al cargar el stream:', e);
+      this.handleConnectionError(e);
+    },
+    handleConnectionError(error) {
       this.connectionError = 'Error de conexión con la cámara. Intenta reconectar.';
       this.streamUrl = '';
     },
     reconnectStream() {
-      this.streamUrl = '';
-      setTimeout(() => {
-        this.connectToStream();
-      }, 1000);
+      try {
+        this.streamUrl = '';
+        setTimeout(() => {
+          this.connectToStream();
+        }, 1000);
+      } catch (error) {
+        console.error('Error al reconectar:', error);
+        this.handleConnectionError(error);
+      }
     }
   }
 }
