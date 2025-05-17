@@ -30,18 +30,21 @@ export default {
 @media (max-width: 600px) {
   .container {
     flex-direction: column;
-    padding: 8px;
-    gap: 8px;
+    padding: 4px;
+    gap: 4px;
+    min-height: 100vh;
+    height: auto;
   }
   .sidebar {
     width: 100%;
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    gap: 8px;
+    gap: 4px;
     height: auto;
     position: static;
     padding: 0;
+    margin-bottom: 4px;
   }
   .logo-box {
     width: 40px;
@@ -85,29 +88,37 @@ export default {
     min-width: 0;
   }
   .main-content {
-    gap: 8px;
+    gap: 4px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: unset;
+    height: auto;
   }
   .header-box {
-    font-size: 1.5rem;
-    padding: 12px 0;
-    border-radius: 10px;
+    font-size: 1.1rem;
+    padding: 8px 0;
+    border-radius: 8px;
+    margin-bottom: 4px;
   }
   .camera-box {
-    min-height: unset;
-    height: 40vw;
-    max-height: 220px;
+    height: 48vw;
+    max-height: 180px;
     aspect-ratio: 16 / 9;
     width: 100%;
-    border-width: 3px;
+    border-width: 2px;
     border-radius: 8px;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000; /* Simula fondo de video */
+    background: #000;
+    margin: 0 auto;
+    box-sizing: border-box;
   }
   .camera-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #fff;
     text-shadow: 0 1px 4px #000;
   }
