@@ -10,6 +10,8 @@
         placeholder="Nombre"
         required
         autocomplete="name"
+        id="nombre"
+        name="nombre"
       />
       <input
         v-model="email"
@@ -17,6 +19,8 @@
         placeholder="Correo electrónico"
         required
         autocomplete="email"
+        id="email"
+        name="email"
       />
       <input
         v-model="password"
@@ -24,6 +28,8 @@
         placeholder="Contraseña"
         required
         autocomplete="current-password"
+        id="password"
+        name="password"
       />
       <input
         v-if="mode === 'register'"
@@ -32,6 +38,8 @@
         placeholder="Teléfono"
         required
         autocomplete="tel"
+        id="telefono"
+        name="telefono"
       />
       <button type="submit">
         {{ mode === 'login' ? 'Iniciar Sesión' : 'Registrarse' }}
@@ -74,13 +82,13 @@ export default {
           password: this.password
         });
         const data = response.data;
-        if (data.success) {
+        if (data && data.success) {
           this.$emit('login-success');
         } else {
-          this.error = data.message || 'Usuario o contraseña incorrectos';
+          this.error = (data && data.message) || 'Usuario o contraseña incorrectos';
         }
       } catch (err) {
-        this.error = 'Error de conexión con el servidor';
+        this.error = err.response?.data?.message || 'Error de conexión con el servidor';
       }
     },
     async register() {
@@ -92,7 +100,7 @@ export default {
           telefono: this.telefono
         });
         const data = response.data;
-        if (data.success) {
+        if (data && data.success) {
           this.mode = 'login';
           this.error = '¡Registro exitoso! Ahora inicia sesión.';
           this.nombre = '';
@@ -100,10 +108,10 @@ export default {
           this.password = '';
           this.telefono = '';
         } else {
-          this.error = data.message || 'No se pudo registrar';
+          this.error = (data && data.message) || 'No se pudo registrar';
         }
       } catch (err) {
-        this.error = 'Error de conexión con el servidor';
+        this.error = err.response?.data?.message || 'Error de conexión con el servidor';
       }
     }
   }
