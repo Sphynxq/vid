@@ -156,4 +156,43 @@ export default {
 .volver-btn:hover {
   background: #B6895B;
 }
+@media (max-width: 600px) {
+  .contactos-container {
+    padding: 16px 4px;
+    max-width: 98vw;
+    border-radius: 10px;
+    margin: 32px auto;
+  }
+  .contactos-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+  .contactos-container form {
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+  .contactos-container input {
+    font-size: 1rem;
+    padding: 8px;
+  }
+  .contactos-container button {
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 6px;
+  }
+  .contactos-lista li {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.98rem;
+    padding: 8px 6px;
+    gap: 4px;
+  }
+  .volver-btn {
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+}
 </style>

@@ -125,4 +125,28 @@ export default {
   margin-bottom: 8px;
   font-size: 1rem;
 }
+@media (max-width: 600px) {
+  .login-container {
+    padding: 16px 4px;
+    max-width: 98vw;
+    border-radius: 10px;
+    margin: 32px auto;
+  }
+  .login-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+  .login-container input {
+    font-size: 1rem;
+    padding: 8px;
+  }
+  .login-container button {
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 6px;
+  }
+  .login-switch {
+    font-size: 0.95rem;
+  }
+}
 </style>

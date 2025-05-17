@@ -127,4 +127,53 @@ export default {
 .landing-btn:hover {
   background: #B6895B;
 }
+@media (max-width: 600px) {
+  .landing-header {
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 0 8px 0;
+  }
+  .landing-logo {
+    width: 40px;
+    height: 40px;
+  }
+  .landing-title {
+    font-size: 2rem;
+    letter-spacing: 4px;
+  }
+  .landing-main {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0;
+  }
+  .landing-img-box {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+  }
+  .landing-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+  }
+  .landing-info {
+    max-width: 100%;
+    align-items: center;
+  }
+  .landing-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .landing-desc {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .landing-btn {
+    font-size: 1.1rem;
+    padding: 8px 16px;
+    border-radius: 12px;
+  }
+}
 </style>

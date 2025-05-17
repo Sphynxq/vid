@@ -58,4 +58,26 @@ export default {
 .volver-btn:hover {
   background: #B6895B;
 }
+@media (max-width: 600px) {
+  .alertas-container {
+    padding: 16px 4px;
+    max-width: 98vw;
+    border-radius: 10px;
+    margin: 32px auto;
+  }
+  .alertas-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+  .alertas-vacio {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+  .volver-btn {
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+}
 </style>
